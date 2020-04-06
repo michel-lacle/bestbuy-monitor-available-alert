@@ -1,11 +1,8 @@
-resource "aws_iam_instance_profile" "jenkins_instance_profile" {
-  name = "jenkins_instance_profile"
-  role = aws_iam_role.jenkins-s3-role.name
-}
+
 
 # this role allows EC2 instances to access s3
-resource "aws_iam_role" "jenkins-s3-role" {
-  name = "jenkins-s3-role"
+resource "aws_iam_role" "bestbuy-alerter-ec2-role" {
+  name = "bestbuy-alerter-s3-role"
 
   assume_role_policy = <<EOF
 {
@@ -24,25 +21,35 @@ resource "aws_iam_role" "jenkins-s3-role" {
 EOF
 }
 
-resource "aws_iam_policy" "jenkins-put-object-policy" {
-  name = "jenkins-put-object-policy"
-  description = "allow jenkins to put artifacts onto an s3 bucket"
+resource "aws_iam_policy" "bestbuy-alerter-sns-policy" {
+  name = "bestbuy-alerter-sns-policy"
+  description = "allow ec2 to publish to topic"
 
   policy = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::jenkins-release-artifacts.f1kart.com/*"
-        }
-    ]
+  "Id": "Policy1586195901727",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1586195896670",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:sns:us-east-1:472521221391:BestBuyAlert",
+      "Principal": "*"
+    }
+  ]
 }
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "jenkins-s3-role-attachment" {
-  role = aws_iam_role.jenkins-s3-role.name
-  policy_arn = aws_iam_policy.jenkins-put-object-policy.arn
+resource "aws_iam_role_policy_attachment" "bestbuy-alerter-role-policy-attachment" {
+  role = aws_iam_role.bestbuy-alerter-ec2-role.name
+  policy_arn = aws_iam_policy.bestbuy-alerter-sns-policy.arn
+}
+
+resource "aws_iam_instance_profile" "bestbuy_instance_profile" {
+  name = "bestbuy-alerter-instance-profile"
+  role = aws_iam_role.bestbuy-alerter-ec2-role.name
 }

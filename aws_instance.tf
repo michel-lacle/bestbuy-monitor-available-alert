@@ -35,9 +35,9 @@ resource "aws_instance" "alerter-ec2" {
   # name.
   key_name = "bestbuy-monitor-available-alert"
 
-  user_data = file("install_jenkins.sh")
+ # user_data = file("install_jenkins.sh")
 
-  iam_instance_profile = aws_iam_instance_profile.jenkins_instance_profile.id
+  iam_instance_profile = aws_iam_instance_profile.bestbuy_instance_profile.id
 
   vpc_security_group_ids = [
     aws_security_group.alerter-ec2-sg.id]
