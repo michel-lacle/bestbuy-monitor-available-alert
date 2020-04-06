@@ -1,22 +1,19 @@
-
-
 # this role allows EC2 instances to access s3
 resource "aws_iam_role" "bestbuy-alerter-ec2-role" {
   name = "bestbuy-alerter-ec2-role"
 
   assume_role_policy = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
+  "Version": "2012-10-17",
+  "Statement": [
     {
-        "Action": "sts:AssumeRole",
-        "Principal": {
+      "Effect": "Allow",
+      "Principal": {
         "Service": "ec2.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": ""
+      },
+      "Action": "sts:AssumeRole"
     }
-    ]
+  ]
 }
 EOF
 }
@@ -36,7 +33,7 @@ resource "aws_iam_policy" "bestbuy-alerter-sns-policy" {
         "sns:Publish"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:sns:us-east-1:472521221391:BestBuyAlert"
+      "Resource": "arn:aws:sns:*:*:BestBuyAlert"
     }
   ]
 }
