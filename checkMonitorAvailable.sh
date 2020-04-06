@@ -6,16 +6,16 @@ while [ 1 ]; do
 
   TOPIC_ARN="arn:aws:sns:us-east-1:472521221391:BestBuyAlert"
 
-  # if item exists we notify SNS topic
-  if [ -z "$ITEM" ]; then
-    echo "Item is sold out"
-  else
-    echo "Item is in stock"
+        # if item exists we notify SNS topic
+        if [ -z "$ITEM" ]; then
+                echo "Item is sold out"
+#               aws sns publish --topic-arn ${TOPIC_ARN} --message "Item is out of Stock" --region us-east-1
+        else
+                echo "Item is in stock"
+                aws sns publish --topic-arn ${TOPIC_ARN} --message "Item is in Stock" --region us-east-1
+        fi
 
-    aws sns publish --topic-arn ${TOPIC_ARN} --message "Item is in Stock"
-
-    echo $?
-  fi
-
-  sleep 300
+        sleep 300
 done
+
+
