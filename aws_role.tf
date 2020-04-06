@@ -2,7 +2,7 @@
 
 # this role allows EC2 instances to access s3
 resource "aws_iam_role" "bestbuy-alerter-ec2-role" {
-  name = "bestbuy-alerter-s3-role"
+  name = "bestbuy-alerter-ec2-role"
 
   assume_role_policy = <<EOF
 {
