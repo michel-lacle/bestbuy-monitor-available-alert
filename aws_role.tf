@@ -36,8 +36,7 @@ resource "aws_iam_policy" "bestbuy-alerter-sns-policy" {
         "sns:Publish"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:sns:us-east-1:472521221391:BestBuyAlert",
-      "Principal": "*"
+      "Resource": "arn:aws:sns:us-east-1:472521221391:BestBuyAlert"
     }
   ]
 }
